@@ -57,7 +57,7 @@ func TestMain(m *testing.M) {
 		"-w", w,
 		"-p", p,
 		"--zero", "127.0.0.1:5081",
-		"--memory_mb", "2048",
+		"--lru_mb", "2048",
 	)
 	server.Stdout = os.Stdout
 	server.Stderr = os.Stdout
@@ -711,6 +711,7 @@ func ExampleDeleteEdges() {
 	op.Schema = `
 			age: int .
 			married: bool .
+			name: string @lang .
 		`
 
 	ctx := context.Background()
