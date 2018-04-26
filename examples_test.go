@@ -38,7 +38,7 @@ func TestMain(m *testing.M) {
 	zw, err := ioutil.TempDir("", "")
 	x.Check(err)
 
-	zero := exec.Command("dgraph",
+	zero := exec.Command(os.ExpandEnv("dgraph"),
 		"zero",
 		"-w", zw,
 		"-o", "1",
@@ -52,7 +52,7 @@ func TestMain(m *testing.M) {
 	w, err := ioutil.TempDir("", "")
 	x.Check(err)
 
-	server := exec.Command("dgraph",
+	server := exec.Command(os.ExpandEnv("dgraph"),
 		"server",
 		"-w", w,
 		"-p", p,
