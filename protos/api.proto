@@ -62,14 +62,18 @@ message Response {
 }
 
 message Mutation {
-	bytes set_json = 1;
-	bytes delete_json = 2;
-	bytes set_nquads = 3;
-	bytes del_nquads = 4;
-	string cond = 6;
+	bytes set_json     = 1;
+	bytes delete_json  = 2;
+	bytes set_nquads   = 3;
+	bytes del_nquads   = 4;
+	repeated NQuad set = 5;
+	repeated NQuad del = 6;
 
-	repeated NQuad set = 10;
-	repeated NQuad del = 11;
+	// This is being used for upserts.
+	string cond = 9;
+
+	// This field is a duplicate of the one in Request and placed here for convenience.
+	bool commit_now = 13;
 }
 
 message Operation {
@@ -102,7 +106,6 @@ message TxnContext {
 	bool aborted = 3;
 	repeated string keys = 4;  // List of keys to be used for conflict detection.
 	repeated string preds = 5; // List of predicates involved in this transaction.
-	LinRead lin_read = 13;
 }
 
 message Check {}
