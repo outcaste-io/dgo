@@ -227,6 +227,7 @@ func (txn *Txn) mergeContext(src *api.TxnContext) error {
 	}
 	txn.context.Keys = append(txn.context.Keys, src.Keys...)
 	txn.context.Preds = append(txn.context.Preds, src.Preds...)
+	txn.context.Namespace = src.GetNamespace()
 	return nil
 }
 
