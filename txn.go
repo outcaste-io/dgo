@@ -67,7 +67,6 @@ func (d *Dgraph) NewTxn() *Txn {
 // NewNameSpacedTxn sets the txn with the given namespace.
 func (d *Dgraph) NewNameSpacedTxn(nameSpace string) *Txn {
 	txn := d.NewTxn()
-	txn.readOnly = true
 	txn.context.Namespace = nameSpace
 	return txn
 }
