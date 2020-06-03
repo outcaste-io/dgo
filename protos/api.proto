@@ -102,8 +102,11 @@ message Operation {
 	// If drop_op is ATTR or TYPE, drop_value holds the name of the predicate or
 	// type to delete.
 	string drop_value = 5;
-	string namespace = 6;
-	string create_namespace = 7;
+
+	// run indexes in background.
+	bool run_in_background = 6;
+	string namespace = 7;
+	string create_namespace = 8;
 }
 
 // Worker services.

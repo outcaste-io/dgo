@@ -11,7 +11,7 @@ to understand how to run and work with Dgraph.
 
 ## Table of contents
 
-- [Import](#import)
+- [Supported Versions](#supported-versions)
 - [Using a client](#using-a-client)
   - [Creating a client](#creating-a-client)
   - [Altering the database](#altering-the-database)
@@ -25,19 +25,23 @@ to understand how to run and work with Dgraph.
 - [Development](#development)
   - [Running tests](#running-tests)
 
-## Import
+## Supported Versions
 
 Depending on the version of Dgraph that you are connecting to, you will have to
 use a different version of this client and their corresponding import paths.
 
-| Dgraph version | dgo version |        dgo import path        |
-|:--------------:|:-----------:|:-----------------------------:|
-|  dgraph 1.0.X  |  dgo 1.X.Y  |   "github.com/dgraph-io/dgo"  |
-|  dgraph 1.1.X  |  dgo 2.X.Y  | "github.com/dgraph-io/dgo/v2" |
+Dgraph version   | dgo version  |        dgo import path          |
+---------------  | -----------  | ------------------------------- |
+  dgraph 1.0.X   |  dgo 1.X.Y   |   "github.com/dgraph-io/dgo"    |
+  dgraph 1.1.X   |  dgo 2.X.Y   | "github.com/dgraph-io/dgo/v2"   |
+  dgraph 20.03.0 |  dgo 200.03.0| "github.com/dgraph-io/dgo/v200" |
 
 Note: One of the most important API breakages from dgo v1 to v2 is in
 the function `dgo.Txn.Mutate`. This function returns an `*api.Assigned`
-value in v1 but an `*api.Response` in v2.
+value in v1 but an `*api.Response` in v2. 
+
+Note: There is no breaking API change from v2 to v200 but we have decided 
+to follow the [CalVer Versioning Scheme](https://dgraph.io/blog/post/dgraph-calendar-versioning).
 
 ## Using a client
 
@@ -75,14 +79,27 @@ err := dgraphClient.Alter(ctx, op)
 slate, without bringing the instance down. `DropAttr` is used to drop all the data
 related to a predicate.
 
+Starting Dgraph version 20.03.0, indexes can be computed in the background.
+You can set `RunInBackground` field of the `api.Operation` to `true`
+before passing it to the `Alter` function. You can find more details
+[here](https://docs.dgraph.io/master/query-language/#indexes-in-background).
+
+```go
+op := &api.Operation{
+  Schema:          `name: string @index(exact) .`,
+  RunInBackground: true
+}
+err := dgraphClient.Alter(ctx, op)
+```
+
 ### Creating a transaction
 
 To create a transaction, call `dgraphClient.NewTxn()`, which returns a `*dgo.Txn` object. This
 operation incurs no network overhead.
 
-It is a good practice to call `txn.Discard()` using a `defer` statement after it is initialized.
-Calling `txn.Discard()` after `txn.Commit()` is a no-op and you can call `txn.Discard()` multiple
-times with no additional side-effects.
+It is a good practice to call `txn.Discard(ctx)` using a `defer` statement after it is initialized.
+Calling `txn.Discard(ctx)` after `txn.Commit(ctx)` is a no-op. Furthermore, `txn.Discard(ctx)`
+can be called multiple times with no additional side-effects.
 
 ```go
 txn := dgraphClient.NewTxn()
