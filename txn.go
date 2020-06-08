@@ -71,7 +71,6 @@ func (d *Dgraph) NewNamespacedTxn(nameSpace string) *Txn {
 	return txn
 }
 
-
 // NewReadOnlyTxn sets the txn to readonly transaction.
 func (d *Dgraph) NewReadOnlyTxn() *Txn {
 	txn := d.NewTxn()
@@ -150,7 +149,9 @@ func (txn *Txn) Do(ctx context.Context, req *api.Request) (*api.Response, error)
 
 	ctx = txn.dg.getContext(ctx)
 	req.StartTs = txn.context.StartTs
-	req.Namespace = txn.context.GetNamespace()
+	if req.Namespace == "" {
+		req.Namespace = txn.context.GetNamespace()
+	}
 	resp, err := txn.dc.Query(ctx, req)
 
 	if isJwtExpired(err) {
