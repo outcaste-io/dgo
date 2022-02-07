@@ -25,7 +25,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/dgraph-io/dgo/v210/protos/api"
+	"github.com/outcaste-io/dgo/v210/protos/api"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"

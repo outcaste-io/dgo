@@ -1,4 +1,4 @@
-module github.com/dgraph-io/dgo/v210
+module github.com/outcaste-io/dgo/v210
 
 go 1.12
 
