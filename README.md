@@ -1,11 +1,8 @@
-# dgo [![GoDoc](https://godoc.org/github.com/dgraph-io/dgo?status.svg)](https://godoc.org/github.com/dgraph-io/dgo) [![Build Status](https://teamcity.dgraph.io/guestAuth/app/rest/builds/buildType:(id:dgo_integration)/statusIcon.svg)](https://teamcity.dgraph.io/viewLog.html?buildTypeId=dgo_integration&buildId=lastFinished&guest=1)
+# dgo [![GoDoc](https://godoc.org/github.com/dgraph-io/dgo?status.svg)](https://godoc.org/github.com/dgraph-io/dgo)
 
-Official Dgraph Go client which communicates with the server using [gRPC](https://grpc.io/).
+Go client which communicates with the server using [gRPC](https://grpc.io/).
 
-Before using this client, we highly recommend that you go through [tour.dgraph.io] and [docs.dgraph.io]
-to understand how to run and work with Dgraph.
-
-**Use [Discuss Issues](https://discuss.dgraph.io/c/issues/35/dgo/46) for reporting issues about this repository.**
+**Use outcaste-io/issues to file issues.**
 
 [docs.dgraph.io]:https://docs.dgraph.io
 [tour.dgraph.io]:https://tour.dgraph.io
@@ -70,10 +67,10 @@ dgraphClient := dgo.NewDgraphClient(api.NewDgraphClient(conn))
 
 ### Login into a namespace
 
-If your server has Access Control Lists enabled (Dgraph v1.1 or above), the client must be 
+If your server has Access Control Lists enabled (Dgraph v1.1 or above), the client must be
 logged in for accessing data. Use `Login` endpoint:
 
-Calling login will obtain and remember the access and refresh JWT tokens. All subsequent operations 
+Calling login will obtain and remember the access and refresh JWT tokens. All subsequent operations
 via the logged in client will send along the stored access token.
 
 ```go
@@ -81,7 +78,7 @@ err := dgraphClient.Login(ctx, "user", "passwd")
 // Check error
 ```
 
-If your server additionally has namespaces (Dgraph v21.03 or above), use the 
+If your server additionally has namespaces (Dgraph v21.03 or above), use the
 `LoginIntoNamespace` API.
 
 ```go
