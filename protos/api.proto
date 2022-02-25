@@ -54,7 +54,6 @@ message Request {
 	bool commit_now = 13;
 	enum RespFormat {
 		JSON = 0;
-		RDF = 1;
 	}
 	RespFormat resp_format = 14;
 	string hash = 15;
@@ -69,6 +68,7 @@ message ListOfString {
 }
 
 message Response {
+	reserved 13; // this was used for rdf bytes
 	bytes json = 1;
 	TxnContext txn = 2;
 	Latency latency = 3;
@@ -77,15 +77,14 @@ message Response {
 	// uids contains a mapping of blank_node => uid for the node. It only returns uids
 	// that were created as part of a mutation.
 	map<string, string> uids = 12;
-	bytes rdf = 13;
 	map<string, ListOfString> hdrs = 14;
 }
 
 message Mutation {
+	reserved 3; // used by set_nquads
+	reserved 4; // used by del_nquads
 	bytes set_json = 1;
 	bytes delete_json = 2;
-	bytes set_nquads = 3;
-	bytes del_nquads = 4;
 	repeated NQuad set = 5;
 	repeated NQuad del = 6;
 
