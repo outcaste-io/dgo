@@ -134,7 +134,7 @@ func (txn *Txn) QueryRDFWithVars(ctx context.Context, q string, vars map[string]
 		StartTs:    txn.context.StartTs,
 		ReadOnly:   txn.readOnly,
 		BestEffort: txn.bestEffort,
-		RespFormat: api.Request_RDF,
+		RespFormat: api.Request_JSON,
 	}
 	return txn.Do(ctx, req)
 }
